@@ -1,0 +1,5 @@
+#include "include/planet.h"
+
+int main() {
+    return 0;
+}
