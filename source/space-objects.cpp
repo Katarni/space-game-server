@@ -1,5 +1,13 @@
 #include "../include/space-objects.h"
 
+bool Cell::isNextCell(const Cell& other) {
+    if (q != other.q && r != other.r && s != other.s) {
+        return false;
+    }
+
+    return q - other.q == other.r - r || q - other.q == other.s - s || r - other.r == other.s - s;
+}
+
 void Planet::setOwner(int8_t owner) {
     owner_ = owner;
 }
@@ -13,7 +21,7 @@ void Planet::capture(int8_t new_owner) {
     star_system_->planetCaptured(lvl_edit);
 }
 
-StarSystem::StarSystem(int64_t id, int8_t planet_cnt, const Point& pos) : id_(id), owner_(0), capture_lvl_(0), pos_(pos) {
+StarSystem::StarSystem(int64_t id, int8_t planet_cnt, const Cell& pos) : id_(id), owner_(0), capture_lvl_(0), pos_(pos) {
     planets_.resize(planet_cnt, nullptr);
     for (auto& planet : planets_) {
         planet = new Planet(this);
@@ -26,9 +34,9 @@ StarSystem::~StarSystem() {
     }
 }
 
-void StarSystem::addTerritoryPoint(const Point& point) {
-    territory_.push_back(point);
-}
+// void StarSystem::addTerritoryCell(const Cell& cell) {
+//     territory_.push_back(cell);
+// }
 
 void StarSystem::setOwner(int8_t owner) {
     owner_ = owner;
